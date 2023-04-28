@@ -1,0 +1,31 @@
+{
+  "name": "express_js--shopping-app",
+  "version": "1.0.0",
+  "description": "express.js ni o'rganish uchun amaliy loyiha",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Bahtiyorovich/express_js--shopping-app.git"
+  },
+  "keywords": [
+    "express, nodemon"
+  ],
+  "author": "sherzodbek",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Bahtiyorovich/express_js--shopping-app/issues"
+  },
+  "homepage": "https://github.com/Bahtiyorovich/express_js--shopping-app#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-handlebars": "^7.0.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.22"
+  }
+}
