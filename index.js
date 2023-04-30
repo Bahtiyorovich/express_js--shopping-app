@@ -23,6 +23,10 @@ app.engine('hbs', hbs.engine)
 app.set('view engine', 'hbs')
 app.set('views', './views')
 
+// auth user method
+app.use(express.static('public'))
+app.use(express.urlencoded({extended: true}))
+
 // Midleware Routes
 app.use(AuthRoutes)
 app.use(ProductsRoutes)
