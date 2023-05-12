@@ -2,12 +2,14 @@ import  express  from "express";
 import mongoose from "mongoose";
 import flash from 'connect-flash'
 import session from "express-session";
+import cookieParser from "cookie-parser";
 import * as dotenv from 'dotenv' 
 
 // const MONGODB_URL = 'mongodb+srv://sherzodjon0317:4cjXNpc3X4PtYZbZ@cluster0.m573t0d.mongodb.net/?retryWrites=true&w=majority'
 
 
 // ROUTES
+import varMiddleware from './middleware/var.js'
 import AuthRoutes from './routes/auth.js'
 import ProductsRoutes from './routes/products.js'
 import {engine, create} from 'express-handlebars'
@@ -38,12 +40,13 @@ app.set('views', './views')
 app.use(express.static('public'))
 app.use(express.urlencoded({extended: true}))
 app.use(express.json())
-
+app.use(cookieParser())
 // session va flash ni AuthRoutes va ProductsRoutes dan oldin chaqirish kerak
 app.use(session({secret:"expressmyapp", resave: false, saveUninitialized: false}));
 app.use(flash());
 
 // Midleware Routes
+app.use(varMiddleware)
 app.use(AuthRoutes)
 app.use(ProductsRoutes)
 

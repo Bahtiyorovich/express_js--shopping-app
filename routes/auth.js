@@ -4,17 +4,35 @@ import User from '../models/user.js'
 // passwordni hash qilish uchun kutubxona
 import bcrypt from 'bcrypt'
 import { generateJWTToken } from "../services/token.js";
+import authMiddleware from "../middleware/auth.js";
 
 const router = Router()
 
-// Login
-router.get('/login', (req, res) => {
+// Login Register, Logout GET METHODS
+router.get('/login',authMiddleware, (req, res) => {
+    
    res.render('login', {
         title: 'Login | Shop',
         isLogin: true,
         loginError: req.flash('loginError')
     })
 })
+
+router.get('/register',authMiddleware, (req, res) => {
+    
+    res.render('register', {
+        title: 'Register | Shop',
+        isRegister: true,
+        registerError: req.flash('registerError')
+    })
+})
+
+router.get('/logout', (req, res) => {
+    res.clearCookie('token')
+    res.redirect('/')
+})
+
+// Login Register POST METHODS
 
 router.post('/login', async (req, res) => {
     //login qilish
@@ -48,16 +66,6 @@ router.post('/login', async (req, res) => {
 })
 
 // Register
-
-router.get('/register', (req, res) => {
-    res.render('register', {
-        title: 'Register | Shop',
-        isRegister: true,
-        registerError: req.flash('registerError')
-    })
-})
-
-
 
 router.post('/register', async (req, res) => {
 
