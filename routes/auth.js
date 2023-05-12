@@ -3,56 +3,80 @@ import User from '../models/user.js'
 
 // passwordni hash qilish uchun kutubxona
 import bcrypt from 'bcrypt'
-
+import { generateJWTToken } from "../services/token.js";
 
 const router = Router()
 
+// Login
 router.get('/login', (req, res) => {
    res.render('login', {
         title: 'Login | Shop',
         isLogin: true,
-        loginError: req.flash("loginError")
-    })
-})
-
-router.get('/register', (req, res) => {
-    res.render('register', {
-        title: 'Register | Shop',
-        isRegister: true,
-        registerError: "Error"
+        loginError: req.flash('loginError')
     })
 })
 
 router.post('/login', async (req, res) => {
-    
     //login qilish
     const {email, password} = req.body
 
     if(!email || !password) {
         req.flash('loginError', 'All fields is required')
         res.redirect('/login')
-    }
-
-    const existUser = await User.findOne({email})
-    if(!existUser) {
-        console.log('User not found') 
         return
     }
 
-    const isPasswordEqual = await bcrypt.compare(password, existUser.password)
+    // email va password orqali login qilish
+    const existUser = await User.findOne({email})
+    if(!existUser) {
+        req.flash('loginError','User not found') 
+        res.redirect('/login')
+        return
+    }
 
+    // password orqali login qilish
+    const isPasswordEqual = await bcrypt.compare(password, existUser.password)
     if(!isPasswordEqual){ 
-        console.log('Password wrong') 
+        req.flash('loginError','Password wrong')
+        res.redirect('/login') 
         return 
     }
 
-    console.log(`User found: ${existUser}`)
+    const token = generateJWTToken(existUser._id)
+    res.cookie('token', token, {httpOnly: true, secure: true})
     res.redirect('/')
 })
+
+// Register
+
+router.get('/register', (req, res) => {
+    res.render('register', {
+        title: 'Register | Shop',
+        isRegister: true,
+        registerError: req.flash('registerError')
+    })
+})
+
+
 
 router.post('/register', async (req, res) => {
 
     const {firstname, lastname, email, password} = req.body
+
+    if(!firstname || !lastname || !email || !password){
+        req.flash('registerError', 'Please! make sure to fill out all the information entry sections')
+        res.redirect('/register')
+        return
+    }
+
+    const candidate = await User.findOne({email})
+
+    if(candidate){
+        req.flash('registerError', 'This emailaddress already exist')
+        res.redirect('/register')
+        return
+    }
+
     // passwordni himoya (hash) qilish kodlari
     const hashhedPassword = await bcrypt.hash(password, 10)
 
@@ -63,7 +87,8 @@ router.post('/register', async (req, res) => {
         password: hashhedPassword
     }
     const user = await User.create(userData)
-    console.log(user)
+    const token = generateJWTToken(user._id)
+    res.cookie('token', token, {httpOnly: true, secure: true})
     res.redirect('/')
 })
 

@@ -1,13 +1,14 @@
 import  express  from "express";
-import AuthRoutes from './routes/auth.js'
 import mongoose from "mongoose";
 import flash from 'connect-flash'
 import session from "express-session";
 import * as dotenv from 'dotenv' 
 
+// const MONGODB_URL = 'mongodb+srv://sherzodjon0317:4cjXNpc3X4PtYZbZ@cluster0.m573t0d.mongodb.net/?retryWrites=true&w=majority'
 
 
 // ROUTES
+import AuthRoutes from './routes/auth.js'
 import ProductsRoutes from './routes/products.js'
 import {engine, create} from 'express-handlebars'
 
@@ -36,16 +37,18 @@ app.set('views', './views')
 // auth user method
 app.use(express.static('public'))
 app.use(express.urlencoded({extended: true}))
+app.use(express.json())
+
+// session va flash ni AuthRoutes va ProductsRoutes dan oldin chaqirish kerak
+app.use(session({secret:"expressmyapp", resave: false, saveUninitialized: false}));
+app.use(flash());
 
 // Midleware Routes
 app.use(AuthRoutes)
 app.use(ProductsRoutes)
-app.use(express.json())
 
 // Errorlarni validatsiya qilish kodlari 
 // app.use(express.cookieParser('keyboard cat'));
-app.use(session({secret:"webdev", resave: false, saveUninitialized: false}));
-app.use(flash());
 
 
 // loyiha nechinchi portda tinglanishini belgilash, "ishga tushirish"
@@ -55,7 +58,7 @@ const startApp = () => {
     try{
         mongoose.set('strictQuery', false)
         mongoose.connect(
-            process.env.MONGO_URI, 
+            process.env.MONGODB_URL, 
             {
                 useNewUrlParser: true,
                 useUnifiedTopology:true
