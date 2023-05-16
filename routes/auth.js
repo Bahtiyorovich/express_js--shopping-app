@@ -80,7 +80,7 @@ router.post('/register', async (req, res) => {
     const candidate = await User.findOne({email})
 
     if(candidate){
-        req.flash('registerError', 'This emailaddress already exist')
+        req.flash('registerError', 'This email address already exist')
         res.redirect('/register')
         return
     }

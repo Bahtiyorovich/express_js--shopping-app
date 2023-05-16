@@ -9,7 +9,7 @@ router.get('/', async(req, res) => {
     // console.log(products)
     res.render('index', {
         title: 'DevTutorials | Shop',
-        products:products
+        products:products.reverse()
     })
 })
 

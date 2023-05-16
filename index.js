@@ -13,6 +13,7 @@ import varMiddleware from './middleware/var.js'
 import AuthRoutes from './routes/auth.js'
 import ProductsRoutes from './routes/products.js'
 import {engine, create} from 'express-handlebars'
+import userMiddleware from "./middleware/user.js";
 
 // import path, {dirname} from 'path'
 // import { fileURLToPath } from "url";
@@ -47,6 +48,7 @@ app.use(flash());
 
 // Midleware Routes
 app.use(varMiddleware)
+app.use(userMiddleware)
 app.use(AuthRoutes)
 app.use(ProductsRoutes)
 
