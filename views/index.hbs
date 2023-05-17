@@ -7,15 +7,22 @@
             <div class="card-body">
                 <h3>{{title}}</h3>
               {{!-- <p class="card-text">{{description}}</p> --}}
-              <div class="d-flex justify-content-end align-items-center">
-                <small class="text-body-secondary fs-5">{{price}}.00$</small>
+              <div class="d-flex justify-content-between align-items-center">
+                <p class="text-secondary bg-light rounded p-2 ">{{formatDate createdAt}}</p>
+                <p class="text-body-secondary bg-light rounded p-2 fs-5">{{price}}.00$</p>
               </div>
             </div>
             <div class="card-footer">
                 <div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-outline-secondary">View</button>
-                    <button type="button" class="btn btn-sm btn-outline-warning">Edit</button>
-                    <button type="button" class="btn btn-sm btn-outline-danger">Delete</button>
+                    <a type="button" class="btn btn-sm btn-outline-secondary" href="/product/{{_id}}">View</a>
+                    {{#if @root.token}}
+                      {{#ifequal user @root.userId}}
+                        <a type="button" class="btn btn-sm btn-outline-warning" href="/edit-product/{{_id}}">Edit</a>
+                        <form action="/delete-product/{{_id}}" method="post">
+                          <button type="submit" class="btn btn-sm btn-outline-danger" >Delete</button>
+                        </form>
+                      {{/ifequal}}
+                    {{/if}}
                 </div>
             </div>
           </div>

@@ -23,13 +23,15 @@
       </a>
 
       <nav class="d-inline-flex mt-2 mt-md-0 ms-md-auto">
-        {{#if isProducts}}
-          <a class="me-3 py-2 link-body-emphasis" href="/products">Products</a>
-        {{else}}
-          <a
-            class="me-3 py-2 link-body-emphasis text-decoration-none"
-            href="/products"
-          >Products</a>
+        {{#if token}}
+          {{#if isProducts}}
+            <a class="me-3 py-2 link-body-emphasis" href="/products">Products</a>
+          {{else}}
+            <a
+              class="me-3 py-2 link-body-emphasis text-decoration-none"
+              href="/products"
+            >Products</a>
+          {{/if}}
         {{/if}}
         {{! <a class="me-3 py-2 link-body-emphasis text-decoration-none" href="#">Add</a> }}
         <div

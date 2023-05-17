@@ -1,0 +1,56 @@
+<div class="w-75 mx-auto">
+  <p class="text-center fs-1 fw-700">Update Product: {{product.title}}</p>
+  {{#if updatedError}}
+      <div class="alert alert-danger" role="alert">
+          <strong>Error!</strong>
+          {{updatedError}}
+        <button type="button" class="btn-close float-end" data-bs-dismiss="alert" aria-label="Close"></button>  
+      </div>
+    {{/if}}
+  <form action="/edit-product/{{product._id}}" method="post">
+    <div class="form-floating mt-2">
+      <input
+        type="text"
+        value="{{product.title}}"
+        class="form-control mb-2"
+        name="title"
+        id="floatingInput"
+        placeholder="title"
+      />
+      <label for="floatingInput">Title</label>
+    </div>
+    <div class="form-floating">
+      <textarea
+        class="form-control mb-2"
+        placeholder="Description"
+        name="description"
+        id="floatingTextarea2"
+        style="height: 100px"
+      >{{product.description}}</textarea>
+      <label for="floatingTextarea2">Description</label>
+    </div>
+    <div class="form-floating mt-2">
+      <input
+        type="text"
+        value="{{product.image}}"
+        class="form-control mb-2"
+        name="image"
+        id="floatingInput"
+        placeholder="url image"
+      />
+      <label for="floatingInput">Image</label>
+    </div>
+    <div class="form-floating mt-2">
+      <input
+        type="number"
+        value="{{product.price}}"
+        class="form-control mb-2"
+        name="price"
+        id="floatingInput"
+        placeholder="product price"
+      />
+      <label for="floatingInput">Price</label>
+    </div>
+    <button class="mt-3 btn  btn-primary" type="submit">Save the changed data</button>
+  </form>
+</div>
